@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="header">
 			<image src="https://img-shop.qmimg.cn/s23107/2020/04/26/3eb7808bf105262604.jpg" mode="" class="bg"></image>
-			<view class="title">您好，游客</view>
+			<view class="title">您好，{{isLogin ? userInfo.nickname : '游客'}}</view>
 			<view class="dec">一杯奶茶，一口软欧包，在奈雪遇见两种美好</view>
 		</view>
 		<view class="content">
@@ -18,7 +18,7 @@
 			</view>
 			<!--积分信息-->
 			<view class="jifen_info">
-				<view class="top">我的积分<text class="val">2233</text></view>
+				<view class="top" @tap="integrals">我的积分<text class="val">2233</text></view>
 				<view class="bottom">
 					进入积分商城兑换奈雪卷和周边礼品
 					<view class="iconfont iconarrow-right"></view>
@@ -77,18 +77,36 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data() {
 			return {
 				title: 'Hello22'
 			}
 		},
-		onLoad() {
-
+		computed:{
+			...mapState(['isLogin','userInfo'])
 		},
 		methods: {
-
-		}
+			commonIsLogin(){
+				if (!this.isLogin) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+					return false
+				}
+				return true
+			},
+			// 我的积分
+			integrals(){
+				if (this.commonIsLogin()){
+					console.log('我的积分')
+				}
+			}
+		},
+		onLoad() {
+		
+		},
 	}
 </script>
 

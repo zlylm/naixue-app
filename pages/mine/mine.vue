@@ -14,21 +14,21 @@
 				
 				<view class="d-flex align-items-center">
 					<view class="avatar">
-						<image src="/static/images/mine/default.png"></image>
+						<image :src="isLogin ? userInfo.avatar : '/static/images/mine/default.png'"></image>
 						<view class="badge" v-if="isLogin">
 							<image src="/static/images/mine/level.png"></image>
-							<view>{{ member.memberLevel }}</view>
+							<view>{{ userInfo.memberLevel }}</view>
 						</view>
 					</view>
 					<view class="d-flex flex-column flex-fill overflow-hidden" style="margin-top: 20rpx;">
 						<view v-if="isLogin" class="font-size-lg font-weight-bold d-flex justify-content-start align-items-center"
 							@tap="userinfo">
-							<view class="text-truncate">{{ member.nickname }}</view>
+							<view class="text-truncate">{{ userInfo.nickname }}</view>
 							<view class="iconfont iconarrow-right line-height-100"></view>
 						</view>
 						<view v-else class="font-size-lg font-weight-bold" @tap="login">请点击授权登录</view>
 						<view class="font-size-sm text-color-assist">
-							当前成长值{{ isLogin ? member.currentValue : 0 }}/{{ isLogin ? member.currentValue + member.needValue : 0 }}
+							当前成长值{{ isLogin ? userInfo.currentValue : 0 }}/{{ isLogin ? userInfo.currentValue + userInfo.needValue : 0 }}
 						</view>
 						<view class="w-100">
 							 <progress percent="0" activeColor="#ADB838" height="8rpx" :percent="growthValue" border-radius="8rpx"/>
@@ -43,25 +43,25 @@
 				<view class="w-100 d-flex align-items-center just-content-center">
 					<view class="user-grid" @tap="coupons">
 						<view class="value font-size-extra-lg font-weight-bold text-color-base">
-							{{  isLogin ? member.couponNum : '***' }}
+							{{  isLogin ? userInfo.couponNum : '***' }}
 						</view>
 						<view class="font-size-sm text-color-assist">奈雪券</view>
 					</view>
 					<view class="user-grid" @tap="integrals">
 						<view class="value font-size-extra-lg font-weight-bold text-color-base">
-							{{  isLogin ? member.pointNum : '***' }}
+							{{  isLogin ? userInfo.pointNum : '***' }}
 						</view>
 						<view class="font-size-sm text-color-assist">积分商城</view>
 					</view>
 					<view class="user-grid" @tap="balance">
 						<view class="value font-size-extra-lg font-weight-bold text-color-base">
-							{{  isLogin ? member.balance : '***' }}
+							{{  isLogin ? userInfo.balance : '***' }}
 						</view>
 						<view class="font-size-sm text-color-assist">余额</view>
 					</view>
 					<view class="user-grid" @tap="giftCards">
 						<view class="value font-size-extra-lg font-weight-bold text-color-base">
-							{{  isLogin ? member.giftBalance : '***' }}
+							{{  isLogin ? userInfo.giftBalance : '***' }}
 						</view>
 						<view class="font-size-sm text-color-assist">礼品卡</view>
 					</view>
@@ -166,14 +166,19 @@
 			</view>
 			<!-- tisps end -->
 	</view>
+	</view>
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data () {
 			return {
 				newIcon: 'https://img-shop.qmimg.cn/s16/images/2020/05/12/ffb0613dded704b6.png'
 			}
+		},
+		computed:{
+			...mapState(['isLogin','userInfo'])
 		}
 	}
 </script>
